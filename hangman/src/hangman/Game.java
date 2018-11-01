@@ -69,7 +69,7 @@ public class Game {
 		setRandomWord();
 		prepTmpAnswer();
 		prepLetterAndPosArray();
-		moves = 0;
+		moves = numOfTries();
 
 		gameState.setValue(false); // initial state
 		createGameStatusBinding();
@@ -98,7 +98,7 @@ public class Game {
 					return GameStatus.GOOD_GUESS;
 				}
 				else {
-					moves++;
+					moves--;
 					log("bad guess");
 					return GameStatus.BAD_GUESS;
 					//printHangman();
@@ -106,6 +106,7 @@ public class Game {
 			}
 		};
 		gameStatus.bind(gameStatusBinding);
+		getMoves();
 	}
 
 	public ReadOnlyObjectProperty<GameStatus> gameStatusProperty() {
@@ -160,15 +161,17 @@ public class Game {
 	private static void drawHangmanFrame() {}
 
 	public void makeMove(String letter) {
-		log("\nin makeMove: " + letter);
-		index = update(letter);
-		// this will toggle the state of the game
-		gameState.setValue(!gameState.getValue());
+	    if(!(letter.length() > 1) && letter.matches("[a-zA-Z]+")) {
+            log("\nin makeMove: " + letter);
+            index = update(letter);
+            // this will toggle the state of the game
+            gameState.setValue(!gameState.getValue());
+        }
 	}
 
 	public void reset() {}
 
-	private int numOfTries() {
+	public int numOfTries() {
 		return 5; // TODO, fix me
 	}
 
@@ -182,7 +185,7 @@ public class Game {
 			log("won");
 			return GameStatus.WON;
 		}
-		else if(moves == numOfTries()) {
+		else if(moves == 0) {
 			log("game over");
 			return GameStatus.GAME_OVER;
 		}
@@ -190,4 +193,7 @@ public class Game {
 			return null;
 		}
 	}
+	public int getMoves() {
+	    return moves;
+    }
 }

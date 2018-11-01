@@ -36,13 +36,18 @@
 					<String fx:value="status"/>
 				</styleClass>
 			</Label>
+            <Label fx:id="movesLeftLabel" GridPane.columnIndex="0">
+                <styleClass>
+                    <String fx:value="status"/>
+                </styleClass>
+            </Label>
 			<GridPane>
-				<Label fx:id="enterALetterLabel" GridPane.columnIndex="0">
+				<Label fx:id="enterALetterLabel" GridPane.columnIndex="1">
 					<styleClass>
 						<String fx:value="status"/>
 					</styleClass>
 				</Label>
-				<TextField fx:id="textField" GridPane.columnIndex="1">
+				<TextField fx:id="textField" GridPane.columnIndex="2">
 				</TextField>
 			</GridPane>
 		</VBox>
