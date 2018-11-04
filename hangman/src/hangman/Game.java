@@ -22,6 +22,7 @@ public class Game {
 	private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
 	private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
 
+
 	public enum GameStatus {
 		GAME_OVER {
 			@Override
@@ -106,7 +107,7 @@ public class Game {
 			}
 		};
 		gameStatus.bind(gameStatusBinding);
-		getMoves();
+		moves = getMoves();
 	}
 
 	public ReadOnlyObjectProperty<GameStatus> gameStatusProperty() {
@@ -194,6 +195,6 @@ public class Game {
 		}
 	}
 	public int getMoves() {
-	    return moves;
+	    return this.moves;
     }
 }
