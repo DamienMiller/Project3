@@ -2,9 +2,7 @@ package hangman;
 
 import javafx.beans.Observable;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -17,7 +15,8 @@ public class Game {
 	private String tmpAnswer;
 	private String[] letterAndPosArray;
 	private String[] words;
-	private int moves;
+	private int count;
+	private ReadOnlyObjectWrapper moves;
 	private int index;
 	private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
 	private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
@@ -70,7 +69,9 @@ public class Game {
 		setRandomWord();
 		prepTmpAnswer();
 		prepLetterAndPosArray();
-		moves = numOfTries();
+		count = numOfTries();
+		moves = new ReadOnlyObjectWrapper(this, "moves", count);
+		//moves.setValue(count);
 
 		gameState.setValue(false); // initial state
 		createGameStatusBinding();
@@ -99,7 +100,9 @@ public class Game {
 					return GameStatus.GOOD_GUESS;
 				}
 				else {
-					moves--;
+					if(count == numOfTries())
+							count--;
+					moves.set(count--);
 					log("bad guess");
 					return GameStatus.BAD_GUESS;
 					//printHangman();
@@ -107,7 +110,7 @@ public class Game {
 			}
 		};
 		gameStatus.bind(gameStatusBinding);
-		moves = getMoves();
+		//moves = getMoves();
 	}
 
 	public ReadOnlyObjectProperty<GameStatus> gameStatusProperty() {
@@ -186,7 +189,7 @@ public class Game {
 			log("won");
 			return GameStatus.WON;
 		}
-		else if(moves == 0) {
+		else if(count == 0) {
 			log("game over");
 			return GameStatus.GAME_OVER;
 		}
@@ -194,7 +197,7 @@ public class Game {
 			return null;
 		}
 	}
-	public int getMoves() {
-	    return this.moves;
+	public ReadOnlyObjectProperty getMoves() {
+	    return moves.getReadOnlyProperty();
     }
 }
