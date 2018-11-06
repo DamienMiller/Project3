@@ -11,14 +11,22 @@
 <?import javafx.scene.layout.GridPane?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml">
-	
+
 	<top>
-		<MenuBar>
-			<Menu text="Game">
-				<MenuItem text="Hangman" onAction="#newHangman"/>
-				<MenuItem text="Quit" onAction="#quit"/>
-			</Menu>
-		</MenuBar>
+		<VBox alignment="TOP_CENTER">
+			<MenuBar>
+				<Menu fx:id = "menu" text="Game">
+					<MenuItem text="Hangman" onAction="#newHangman"/>
+					<MenuItem text="Quit" onAction="#quit"/>
+				</Menu>
+			</MenuBar>
+			<Label text="HANGMAN">
+				<styleClass>
+					<String fx:value="hangman-title"/>
+				</styleClass>
+			</Label>
+		</VBox>
+
 	</top>
 
 	<center>
@@ -28,9 +36,12 @@
 			</styleClass>
 		</VBox>
 	</center>
-	
+
 	<bottom>
-		<VBox>
+		<VBox fx:id="bottom">
+			<styleClass>
+				<String fx:value="bottom-box"/>
+			</styleClass>
 			<Label fx:id="statusLabel">
 				<styleClass>
 					<String fx:value="status"/>
