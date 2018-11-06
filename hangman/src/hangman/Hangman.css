@@ -1,16 +1,23 @@
 .root {
-	-fx-font-family: "Comic Sans MS" ;	
-	-fx-background-color: lightgoldenrodyellow ;
+	-fx-font-family: "Comic Sans MS" ;
+	-fx-background-color: grey ;
 }
 .hangman-board {
-	-fx-background-color: saddlebrown ;
+	-fx-background-color: grey ;
 	-fx-padding: 15px ;
 	-fx-alignment: center ;
 }
 
 .hangman-board > .board-grid {
 	-fx-background-color: white ;
-	-fx-border-color: transparent ;
+	-fx-border-color: lightgoldenrodyellow ;
+
+}
+.hangman-title{
+	-fx-font-size: 48pt ;
+	-fx-text-fill: darkred ;
+	-fx-font-family: "Stencil";
+	-fx-alignment: center;
 }
 
 .hangman-board .label:disabled {
@@ -23,5 +30,12 @@
 
 .status {
 	-fx-font-size: 24pt ;
-	-fx-text-fill: sandybrown ;
+	-fx-text-fill: black ;
+	-fx-font-style: italic;
+	-fx-font-family: "Arial";
+}
+
+.bottom-box
+{
+	-fx-background-color: white;
 }

@@ -19,6 +19,7 @@ public class Hangman extends Application {
 		scene.getStylesheets().add(getClass().getResource("Hangman.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setResizable(false);
 	}
 
 	public static void main(String[] args) {
