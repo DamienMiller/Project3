@@ -5,7 +5,13 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +26,7 @@ public class Game {
 	private int index;
 	private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
 	private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
+	private Stage primaryStage;
 
 
 	public enum GameStatus {
@@ -53,7 +60,8 @@ public class Game {
 		}
 	}
 
-	public Game() {
+	public Game(Stage primaryStage) {
+		this.primaryStage = primaryStage;
 		gameStatus = new ReadOnlyObjectWrapper<GameStatus>(this, "gameStatus", GameStatus.OPEN);
 		gameStatus.addListener(new ChangeListener<GameStatus>() {
 			@Override
@@ -173,7 +181,22 @@ public class Game {
         }
 	}
 
-	public void reset() {}
+	public void loadsUI(Game game) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Hangman.fxml"));
+		loader.setController(new GameController(game));
+		Parent root = loader.load();
+		Scene scene = new Scene(root, 500, 800);
+		scene.getStylesheets().add(getClass().getResource("Hangman.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.show();
+
+	}
+
+	public void reset() throws IOException {
+		primaryStage.close();
+		final Game game = new Game(primaryStage);
+		loadsUI(game);
+	}
 
 	public int numOfTries() {
 		return 5; // TODO, fix me

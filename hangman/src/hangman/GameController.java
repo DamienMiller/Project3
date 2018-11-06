@@ -108,7 +108,7 @@ public class GameController {
 	}
 		
 	@FXML 
-	private void newHangman() {
+	private void newHangman() throws IOException {
 		game.reset();
 	}
 
