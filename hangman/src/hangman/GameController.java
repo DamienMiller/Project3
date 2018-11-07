@@ -1,4 +1,4 @@
-package hangman;
+
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -17,8 +17,8 @@ import javafx.scene.shape.Line;
 public class GameController {
 
 	private final ExecutorService executorService;
-	private final Game game;	
-	
+	private final Game game;
+
 	public GameController(Game game) {
 		this.game = game;
 		executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -65,8 +65,10 @@ public class GameController {
                         textField.setText(textField.getText().substring(0, 1));
                         //textField.setText(newValue.replaceAll("[^\\sa-zA-Z]", ""));
                         game.makeMove(newValue);
+                        addBodyPart();
                         } catch(Exception e) {
                             game.makeMove(oldValue);
+
                         }
 
                     }
@@ -110,8 +112,18 @@ public class GameController {
 		board.getChildren().add(c);
 
 	}
-		
-	@FXML 
+
+	public void addBodyPart() {
+		Line line = new Line();
+		line.setStartX(35.0f);
+		line.setStartY(0.0f);
+		line.setEndX(35.0f);
+		line.setEndY(35.0f);
+
+		board.getChildren().add(line);
+	}
+
+	@FXML
 	private void newHangman() throws IOException {
 		game.reset();
 	}

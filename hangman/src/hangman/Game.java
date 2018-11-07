@@ -1,4 +1,4 @@
-package hangman;
+
 
 import javafx.beans.Observable;
 import javafx.beans.binding.ObjectBinding;
@@ -187,6 +187,7 @@ public class Game {
 		Parent root = loader.load();
 		Scene scene = new Scene(root, 500, 800);
 		scene.getStylesheets().add(getClass().getResource("Hangman.css").toExternalForm());
+
 		primaryStage.setScene(scene);
 		primaryStage.show();
 

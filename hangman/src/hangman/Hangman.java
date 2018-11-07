@@ -1,4 +1,4 @@
-package hangman;
+
 
 import java.io.IOException;
 import javafx.application.Application;
