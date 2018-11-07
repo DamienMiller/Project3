@@ -13,6 +13,7 @@ public class Hangman extends Application {
 	public void start(final Stage primaryStage) throws IOException {
 		final Game game = new Game(primaryStage);
 		game.loadsUI(game);
+
 	}
 
 	public static void main(String[] args) {

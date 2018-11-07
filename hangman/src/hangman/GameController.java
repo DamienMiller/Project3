@@ -41,6 +41,10 @@ public class GameController {
     private Label movesLeftLabel ;
 	@FXML
 	private TextField textField ;
+	@FXML
+	private VBox titleBox;
+	@FXML
+	private Label title;
 
     public void initialize() throws IOException {
 		System.out.println("in initialize");
