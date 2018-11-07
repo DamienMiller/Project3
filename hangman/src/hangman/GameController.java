@@ -37,6 +37,8 @@ public class GameController {
 	private Label statusLabel ;
 	@FXML
 	private Label enterALetterLabel ;
+    @FXML
+    private Label movesLeftLabel ;
 	@FXML
 	private TextField textField ;
 	@FXML
@@ -52,16 +54,27 @@ public class GameController {
 	}
 
 	private void addTextBoxListener() {
+        //textField.clear();
 		textField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-				if(newValue.length() > 0) {
-					System.out.print(newValue);
-					game.makeMove(newValue);
-					textField.clear();
+			public void changed(final ObservableValue<? extends String> ov,
+                                final String oldValue, final String newValue) {
+				if(newValue.length() >= 1) {
+                    if (!newValue.matches("\\sa-zA-Z*")) {
+                        try{
+                        textField.setText(textField.getText().substring(0, 1));
+                        //textField.setText(newValue.replaceAll("[^\\sa-zA-Z]", ""));
+                        game.makeMove(newValue);
+                        } catch(Exception e) {
+                            game.makeMove(oldValue);
+                        }
+
+                    }
 				}
+
 			}
 		});
+
 	}
 
 	private void setUpStatusLabelBindings() {
@@ -69,6 +82,8 @@ public class GameController {
 		System.out.println("in setUpStatusLabelBindings");
 		statusLabel.textProperty().bind(Bindings.format("%s", game.gameStatusProperty()));
 		enterALetterLabel.textProperty().bind(Bindings.format("%s", "Enter a letter:"));
+        movesLeftLabel.textProperty().bind(Bindings.format("You have %s moves left", game.getMoves()));
+
 		/*	Bindings.when(
 					game.currentPlayerProperty().isNotNull()
 			).then(
@@ -97,7 +112,7 @@ public class GameController {
 	}
 		
 	@FXML 
-	private void newHangman() {
+	private void newHangman() throws IOException {
 		game.reset();
 	}
 

@@ -2,12 +2,16 @@ package hangman;
 
 import javafx.beans.Observable;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +21,13 @@ public class Game {
 	private String tmpAnswer;
 	private String[] letterAndPosArray;
 	private String[] words;
-	private int moves;
+	private int count;
+	private ReadOnlyObjectWrapper moves;
 	private int index;
 	private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
 	private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
+	private Stage primaryStage;
+
 
 	public enum GameStatus {
 		GAME_OVER {
@@ -53,7 +60,8 @@ public class Game {
 		}
 	}
 
-	public Game() {
+	public Game(Stage primaryStage) {
+		this.primaryStage = primaryStage;
 		gameStatus = new ReadOnlyObjectWrapper<GameStatus>(this, "gameStatus", GameStatus.OPEN);
 		gameStatus.addListener(new ChangeListener<GameStatus>() {
 			@Override
@@ -69,7 +77,9 @@ public class Game {
 		setRandomWord();
 		prepTmpAnswer();
 		prepLetterAndPosArray();
-		moves = 0;
+		count = numOfTries();
+		moves = new ReadOnlyObjectWrapper(this, "moves", count);
+		//moves.setValue(count);
 
 		gameState.setValue(false); // initial state
 		createGameStatusBinding();
@@ -98,7 +108,9 @@ public class Game {
 					return GameStatus.GOOD_GUESS;
 				}
 				else {
-					moves++;
+					if(count == numOfTries())
+							count--;
+					moves.set(count--);
 					log("bad guess");
 					return GameStatus.BAD_GUESS;
 					//printHangman();
@@ -106,6 +118,7 @@ public class Game {
 			}
 		};
 		gameStatus.bind(gameStatusBinding);
+		//moves = getMoves();
 	}
 
 	public ReadOnlyObjectProperty<GameStatus> gameStatusProperty() {
@@ -160,15 +173,32 @@ public class Game {
 	private static void drawHangmanFrame() {}
 
 	public void makeMove(String letter) {
-		log("\nin makeMove: " + letter);
-		index = update(letter);
-		// this will toggle the state of the game
-		gameState.setValue(!gameState.getValue());
+	    if(!(letter.length() > 1) && letter.matches("[a-zA-Z]+")) {
+            log("\nin makeMove: " + letter);
+            index = update(letter);
+            // this will toggle the state of the game
+            gameState.setValue(!gameState.getValue());
+        }
 	}
 
-	public void reset() {}
+	public void loadsUI(Game game) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Hangman.fxml"));
+		loader.setController(new GameController(game));
+		Parent root = loader.load();
+		Scene scene = new Scene(root, 500, 800);
+		scene.getStylesheets().add(getClass().getResource("Hangman.css").toExternalForm());
+		primaryStage.setScene(scene);
+		primaryStage.show();
 
-	private int numOfTries() {
+	}
+
+	public void reset() throws IOException {
+		primaryStage.close();
+		final Game game = new Game(primaryStage);
+		loadsUI(game);
+	}
+
+	public int numOfTries() {
 		return 5; // TODO, fix me
 	}
 
@@ -182,7 +212,7 @@ public class Game {
 			log("won");
 			return GameStatus.WON;
 		}
-		else if(moves == numOfTries()) {
+		else if(count == 0) {
 			log("game over");
 			return GameStatus.GAME_OVER;
 		}
@@ -190,4 +220,7 @@ public class Game {
 			return null;
 		}
 	}
+	public ReadOnlyObjectProperty getMoves() {
+	    return moves.getReadOnlyProperty();
+    }
 }
