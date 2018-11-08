@@ -11,16 +11,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Ellipse;
 
 public class GameController {
 
 	private final ExecutorService executorService;
 	private final Game game;
+	private int bodyPartNumber;
+	private Pane stickFigure;
 
 	public GameController(Game game) {
 		this.game = game;
+		bodyPartNumber = 0;
+		stickFigure = new Pane();
 		executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
@@ -51,6 +57,7 @@ public class GameController {
 		drawHangman();
 		addTextBoxListener();
 		setUpStatusLabelBindings();
+		board.getChildren().add(stickFigure);
 	}
 
 	private void addTextBoxListener() {
@@ -105,22 +112,51 @@ public class GameController {
 		line.setEndX(25.0f);
 		line.setEndY(25.0f);
 
-		Circle c = new Circle();
-		c.setRadius(10);
+		Circle c = new Circle(236, 0, 10);
 
 		board.getChildren().add(line);
 		board.getChildren().add(c);
 
+		Line body = new Line();
+		body.setStartX(0);
+		body.setStartY(c.getCenterY());
+		body.setEndX(0.0f);
+		body.setEndY(45.0f);
+
+		Line beakOne = new Line(230, -5, 220, 12);
+		Line beakTwo = new Line(230, 8, 220, 12);
+		Line neck = new Line(236, 0, 260, 30);
+
+		Line armR = new Line();
+		armR.setStartX(0);
+		armR.setStartY(c.getCenterY());
+		armR.setEndX(20.0f);
+		armR.setEndY(45.0f);
+
+		stickFigure.getChildren().add(c);
+		stickFigure.getChildren().add(beakOne);
+		stickFigure.getChildren().add(beakTwo);
+		stickFigure.getChildren().add(neck);
+
 	}
 
 	public void addBodyPart() {
-		Line line = new Line();
-		line.setStartX(35.0f);
-		line.setStartY(0.0f);
-		line.setEndX(35.0f);
-		line.setEndY(35.0f);
+		if(bodyPartNumber == 0) {
+			Circle c = new Circle();
+			c.setRadius(10);
+		} else if (bodyPartNumber == 1) {
 
-		board.getChildren().add(line);
+		} else if (bodyPartNumber == 2) {
+
+		} else if (bodyPartNumber == 3) {
+
+		} else if (bodyPartNumber == 4) {
+
+		} else if (bodyPartNumber == 5) {
+
+		} else if (bodyPartNumber == 6) {
+
+		}
 	}
 
 	@FXML
