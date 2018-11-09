@@ -11,16 +11,19 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
 	private String answer;
 	private String tmpAnswer;
 	private String[] letterAndPosArray;
-	private String[] words;
+	private List words;
 	private int count;
 	private ReadOnlyObjectWrapper moves;
 	private int index;
@@ -74,6 +77,7 @@ public class Game {
 			}
 
 		});
+		openWordFile();
 		setRandomWord();
 		prepTmpAnswer();
 		prepLetterAndPosArray();
@@ -99,7 +103,7 @@ public class Game {
 					return check;
 				}
 
-				if(tmpAnswer.trim().length() == 0){
+				if(tmpAnswer.trim().length() == 0 && index == 0){
 					log("new game");
 					return GameStatus.OPEN;
 				}
@@ -128,9 +132,32 @@ public class Game {
 		return gameStatus.get();
 	}
 
+	private void openWordFile() {
+		try{
+			BufferedReader reader = new BufferedReader(new FileReader("words.txt"));
+			String line = reader.readLine();
+			words = new ArrayList<String>();
+			while(line != null) {
+				String[] wordsLine = line.split(" ");
+				for(String word : wordsLine) {
+					words.add(word);
+				}
+				line = reader.readLine();
+			}
+
+
+		} catch (Exception e) {
+			System.out.println("Exception occurred");
+		}
+
+	}
+
 	private void setRandomWord() {
+		Random rand = new Random(System.currentTimeMillis());
+		answer = words.get(rand.nextInt(words.size())).toString();
+		log(answer);
 		//int idx = (int) (Math.random() * words.length);
-		answer = "apple";//words[idx].trim(); // remove new line character
+		//answer = "apple";//words[idx].trim(); // remove new line character
 	}
 
 	private void prepTmpAnswer() {
@@ -201,7 +228,7 @@ public class Game {
 	}
 
 	public int numOfTries() {
-		return 7; // TODO, fix me
+		return answer.length();
 	}
 
 	public static void log(String s) {
