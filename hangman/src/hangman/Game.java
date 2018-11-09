@@ -27,7 +27,7 @@ public class Game {
 	private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
 	private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
 	private Stage primaryStage;
-
+	GameController controller;
 
 	public enum GameStatus {
 		GAME_OVER {
@@ -183,7 +183,8 @@ public class Game {
 
 	public void loadsUI(Game game) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Hangman.fxml"));
-		loader.setController(new GameController(game));
+		controller = new GameController(game);
+		loader.setController(controller);
 		Parent root = loader.load();
 		Scene scene = new Scene(root, 500, 800);
 		scene.getStylesheets().add(getClass().getResource("Hangman.css").toExternalForm());
@@ -200,7 +201,7 @@ public class Game {
 	}
 
 	public int numOfTries() {
-		return 5; // TODO, fix me
+		return 7; // TODO, fix me
 	}
 
 	public static void log(String s) {
@@ -215,6 +216,7 @@ public class Game {
 		}
 		else if(count == 0) {
 			log("game over");
+			controller.addBodyPart();
 			return GameStatus.GAME_OVER;
 		}
 		else {
