@@ -228,7 +228,7 @@ public class Game {
 	}
 
 	public int numOfTries() {
-		return answer.length();
+		return 7;
 	}
 
 	public static void log(String s) {
