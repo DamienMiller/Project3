@@ -1,0 +1,4 @@
+apple
+book
+computer
+paint
