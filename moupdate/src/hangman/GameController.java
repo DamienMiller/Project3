@@ -1,4 +1,6 @@
-package hangman;
+package src.hangman;
+
+
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -38,6 +40,7 @@ public class GameController {
 
 	public GameController(Game game) {
 		this.game = game;
+		stickFigure = new Pane();
 		executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
@@ -51,6 +54,7 @@ public class GameController {
 	public static GameController getInstance() {
 		return null;
 	}
+
 
 	@FXML
 	private VBox board ;
@@ -75,6 +79,7 @@ public class GameController {
 		addTextBoxListener();
 		setUpStatusLabelBindings();
 		prepAnswerFields();
+		board.getChildren().add(stickFigure);
 	}
 
 	private void addTextBoxListener() {
@@ -203,7 +208,7 @@ public class GameController {
 		line.setEndX(25.0f);
 		line.setEndY(25.0f);
 
-        board.getChildren().add(line);
+		//stickFigure.getChildren().add(line);
 
 		head = new Circle(236, 0, 10);
 		beakOne = new Line(230, -5, 220, 12);
@@ -220,47 +225,47 @@ public class GameController {
 		Rectangle overhang = new Rectangle(125, -150, 110, 10);
 		Rectangle ropePost = new Rectangle(232, -150, 10, 50);
         if(wrong == 0) {
-            board.getChildren().add(base);
-            board.getChildren().add(post);
-            board.getChildren().add(overhang);
-            board.getChildren().add(ropePost);
-            board.getChildren().add(rope);
+        	stickFigure.getChildren().add(base);
+        	stickFigure.getChildren().add(post);
+        	stickFigure.getChildren().add(overhang);
+        	stickFigure.getChildren().add(ropePost);
+        	stickFigure.getChildren().add(rope);
         }
 
         if(wrong == 1) {
-            board.getChildren().add(head);
+        	stickFigure.getChildren().add(head);
         }
 
         if(wrong == 2) {
-           board.getChildren().add(beakOne);
-            board.getChildren().add(beakTwo);
+        	stickFigure.getChildren().add(beakOne);
+        	stickFigure.getChildren().add(beakTwo);
         }
 
         if(wrong == 3) {
-            board.getChildren().add(neck);
+        	stickFigure.getChildren().add(neck);
         }
 
         if(wrong == 4) {
-            board.getChildren().add(body);
+        	stickFigure.getChildren().add(body);
         }
 
         if(wrong == 5) {
-            board.getChildren().add(tail);
+        	stickFigure.getChildren().add(tail);
         }
 
         if(wrong == 6) {
-            board.getChildren().add(legL);
+        	stickFigure.getChildren().add(legL);
         }
 
         if(wrong == 7) {
-            board.getChildren().add(legR);
+        	stickFigure.getChildren().add(legR);
         }
 
 
 	    }
-    	
-		
-	@FXML 
+
+
+	@FXML
 	private void newHangman() {
 		game.reset();
         board.getChildren().clear();

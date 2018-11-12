@@ -1,4 +1,5 @@
-package hangman;
+package src.hangman;
+
 
 import javafx.beans.Observable;
 import javafx.beans.binding.ObjectBinding;
