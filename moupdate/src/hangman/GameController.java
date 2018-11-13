@@ -1,4 +1,4 @@
-package hangman;
+package src.hangman;
 
 
 
@@ -210,20 +210,20 @@ public class GameController {
 
 		//stickFigure.getChildren().add(line);
 
-		head = new Circle(236, 0, 10);
-		beakOne = new Line(230, -5, 220, 12);
-		beakTwo = new Line(230, 8, 220, 12);
-		neck = new Line(236, 0, 260, 30);
-		body = new Ellipse(260, 33, 30, 18);
-		tail = new Line(280, 28, 310, 10);
-		legL = new Line(250, 40, 240, 60);
-		legR = new Line(270, 40, 280, 60);
+		head = new Circle(236, 50, 10);
+		beakOne = new Line(230, 45, 220, 62);
+		beakTwo = new Line(230, 58, 220, 62);
+		neck = new Line(236, 50, 260, 80);
+		body = new Ellipse(260, 83, 30, 18);
+		tail = new Line(280, 78, 310, 60);
+		legL = new Line(250, 90, 240, 110);
+		legR = new Line(270, 90, 280, 110);
 
-		Line rope = new Line(236, -100, 236, 0);
-		Rectangle base = new Rectangle(80, 100, 100, 10);
-		Rectangle post = new Rectangle(125, -150, 10, 250);
-		Rectangle overhang = new Rectangle(125, -150, 110, 10);
-		Rectangle ropePost = new Rectangle(232, -150, 10, 50);
+		Line rope = new Line(236, 0, 236, 50);
+		Rectangle base = new Rectangle(80, 200, 100, 10);
+		Rectangle post = new Rectangle(125, -50, 10, 250);
+		Rectangle overhang = new Rectangle(125, -50, 110, 10);
+		Rectangle ropePost = new Rectangle(232, -50, 10, 50);
         if(wrong == 0) {
         	stickFigure.getChildren().add(base);
         	stickFigure.getChildren().add(post);
@@ -267,8 +267,9 @@ public class GameController {
 
 	@FXML
 	private void newHangman() {
+		System.out.println("resetting game...");
 		game.reset();
-        board.getChildren().clear();
+        stickFigure.getChildren().clear();
 		numwrong = 0;
 		drawHangman(numwrong);
 		initAnswerFields();

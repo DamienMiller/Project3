@@ -1,4 +1,4 @@
-package hangman;
+package src.hangman;
 
 
 import javafx.beans.Observable;
@@ -172,7 +172,7 @@ public class Game {
 	}
 
 	private int numOfTries() {
-		return 8; // TODO, fix me
+		return 6; // TODO, fix me
 	}
 
 	public static void log(String s) {
