@@ -132,18 +132,30 @@ public class GameController {
 					}
 					else if (game.getGameStatus() == Game.GameStatus.BAD_GUESS || game.getGameStatus() == Game.GameStatus.GAME_OVER) {
 						String tempField = incorrectGuessField.getText();
-						numwrong++;
-						drawHangman(numwrong);
 						if(numwrong <= 9) {
-							if (tempField.equals("")) {
+							if (correctGuesses.contains(newValue)) {
+								//do nothing
+							}
+							else if (tempField.equals("")) {
 								tempField = newValue;
 								incorrectGuessField.setText(tempField);
+								numwrong++;
+								drawHangman(numwrong);
+
 							}
 							else {
 								tempField = tempField + " " + newValue;
 								incorrectGuessField.setText(tempField);
+								numwrong++;
+								drawHangman(numwrong);
+
 							}
 						}
+						/*else {
+							drawHangman(numwrong);
+							numwrong++;
+						}*/
+
 					}
 					textField.clear();
 				}

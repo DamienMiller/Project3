@@ -136,7 +136,11 @@ public class Game {
 			if(letterAndPosArray[i].equalsIgnoreCase(input)) {
 				index = i;
 				letterAndPosArray[i] = "";
+				correctGuesses = correctGuesses + input;
 				break;
+			}
+			if(correctGuesses.contains(input)) {
+				index = 1;
 			}
 		}
 		return index;
