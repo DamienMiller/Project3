@@ -148,11 +148,11 @@ public class Game {
 			StringBuilder sb = new StringBuilder(tmpAnswer);
 			sb.setCharAt(index, input.charAt(0));
 			tmpAnswer = sb.toString();
-			correctGuesses = correctGuesses + input;
+			//correctGuesses = correctGuesses + input;
 		}
-		if (correctGuesses.contains(input)) {
+		/*if (correctGuesses.contains(input)) {
 			index = 1;
-		}
+		}*/
 		return index;
 	}
 

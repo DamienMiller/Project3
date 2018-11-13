@@ -42,6 +42,7 @@ public class GameController {
 	public GameController(Game game) {
 		this.game = game;
 		stickFigure = new Pane();
+		correctGuesses = "";
 		executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
@@ -114,10 +115,10 @@ public class GameController {
 					}
 					tempIndex = getValidIndex(game.getAnsArray(), newValue);
 					game.makeMove(newValue);
-					if (correctGuesses.contains(newValue)) {
+					/*if (correctGuesses.contains(newValue)) {
 						//do nothing
 					}
-					else if (tempIndex != -1 && game.getGameStatus() == Game.GameStatus.GOOD_GUESS || game.getGameStatus() == Game.GameStatus.WON) {
+					else*/ if (tempIndex != -1 && game.getGameStatus() == Game.GameStatus.GOOD_GUESS || game.getGameStatus() == Game.GameStatus.WON) {
 						String tempField1 = correctGuessField.getText();
 						int tempInt = tempIndex * 2;
 						if (tempInt == 0) {
