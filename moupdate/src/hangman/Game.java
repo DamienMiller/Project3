@@ -26,6 +26,7 @@ public class Game {
 	private int index;
 	private final ReadOnlyObjectWrapper<GameStatus> gameStatus;
 	private ObjectProperty<Boolean> gameState = new ReadOnlyObjectWrapper<Boolean>();
+	public String correctGuesses = "";
 
 
 	public Game() {
@@ -147,6 +148,10 @@ public class Game {
 			StringBuilder sb = new StringBuilder(tmpAnswer);
 			sb.setCharAt(index, input.charAt(0));
 			tmpAnswer = sb.toString();
+			correctGuesses = correctGuesses + input;
+		}
+		if (correctGuesses.contains(input)) {
+			index = 1;
 		}
 		return index;
 	}
@@ -167,6 +172,7 @@ public class Game {
 		prepLetterAndPosArray();
 		moves = 0;
 
+		correctGuesses = "";
 		gameState.setValue(false);
 		createGameStatusBinding();
 	}

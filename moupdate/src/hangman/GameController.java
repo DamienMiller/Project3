@@ -37,6 +37,7 @@ public class GameController {
 	private final ExecutorService executorService;
 	private final Game game;
 	private int numwrong = 0;
+	private String correctGuesses = "";
 
 	public GameController(Game game) {
 		this.game = game;
@@ -80,6 +81,7 @@ public class GameController {
 		setUpStatusLabelBindings();
 		prepAnswerFields();
 		board.getChildren().add(stickFigure);
+		correctGuesses = "";
 	}
 
 	private void addTextBoxListener() {
@@ -112,7 +114,10 @@ public class GameController {
 					}
 					tempIndex = getValidIndex(game.getAnsArray(), newValue);
 					game.makeMove(newValue);
-					if (tempIndex != -1 && (game.getGameStatus() == Game.GameStatus.GOOD_GUESS || game.getGameStatus() == Game.GameStatus.WON)) {
+					if (correctGuesses.contains(newValue)) {
+						//do nothing
+					}
+					else if (tempIndex != -1 && game.getGameStatus() == Game.GameStatus.GOOD_GUESS || game.getGameStatus() == Game.GameStatus.WON) {
 						String tempField1 = correctGuessField.getText();
 						int tempInt = tempIndex * 2;
 						if (tempInt == 0) {
@@ -122,6 +127,7 @@ public class GameController {
 							String tempField2 = tempField1.substring(0, tempInt) + newValue + tempField1.substring(tempInt + 1);
 							correctGuessField.setText(tempField2);
 						}
+						correctGuesses = correctGuesses + newValue;
 					}
 					else if (game.getGameStatus() == Game.GameStatus.BAD_GUESS || game.getGameStatus() == Game.GameStatus.GAME_OVER) {
 						String tempField = incorrectGuessField.getText();
