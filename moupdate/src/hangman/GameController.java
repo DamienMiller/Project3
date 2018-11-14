@@ -83,6 +83,7 @@ public class GameController {
 		prepAnswerFields();
 		board.getChildren().add(stickFigure);
 		correctGuesses = "";
+		textField.clear();
 	}
 
 	private void addTextBoxListener() {
@@ -292,6 +293,7 @@ public class GameController {
 		numwrong = 0;
 		drawHangman(numwrong);
 		initAnswerFields();
+		textField.clear();
 	}
 
 	@FXML
