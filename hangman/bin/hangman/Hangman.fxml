@@ -26,7 +26,6 @@
 				</styleClass>
 			</Label>
 		</VBox>
-
 	</top>
 
 	<center>
@@ -38,7 +37,7 @@
 	</center>
 
 	<bottom>
-		<VBox fx:id="bottom">
+		<VBox>
 			<styleClass>
 				<String fx:value="bottom-box"/>
 			</styleClass>
@@ -47,11 +46,24 @@
 					<String fx:value="status"/>
 				</styleClass>
 			</Label>
-            <Label fx:id="movesLeftLabel">
-                <styleClass>
-                    <String fx:value="status"/>
-                </styleClass>
-            </Label>
+			<GridPane>
+				<Label fx:id="correctGuessLabel" GridPane.columnIndex="0">
+					<styleClass>
+						<String fx:value="status"/>
+					</styleClass>
+				</Label>
+				<TextField fx:id="correctGuessField" GridPane.columnIndex="1">
+				</TextField>
+			</GridPane>
+			<GridPane>
+				<Label fx:id="incorrectGuessLabel" GridPane.columnIndex="0">
+					<styleClass>
+						<String fx:value="status"/>
+					</styleClass>
+				</Label>
+				<TextField fx:id="incorrectGuessField" GridPane.columnIndex="1">
+				</TextField>
+			</GridPane>
 			<GridPane>
 				<Label fx:id="enterALetterLabel" GridPane.columnIndex="0">
 					<styleClass>

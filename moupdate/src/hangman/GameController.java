@@ -37,10 +37,12 @@ public class GameController {
 	private final ExecutorService executorService;
 	private final Game game;
 	private int numwrong = 0;
+	private String correctGuesses = "";
 
 	public GameController(Game game) {
 		this.game = game;
 		stickFigure = new Pane();
+		correctGuesses = "";
 		executorService = Executors.newSingleThreadExecutor(new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
@@ -80,6 +82,8 @@ public class GameController {
 		setUpStatusLabelBindings();
 		prepAnswerFields();
 		board.getChildren().add(stickFigure);
+		correctGuesses = "";
+		textField.clear();
 	}
 
 	private void addTextBoxListener() {
@@ -112,7 +116,10 @@ public class GameController {
 					}
 					tempIndex = getValidIndex(game.getAnsArray(), newValue);
 					game.makeMove(newValue);
-					if (tempIndex != -1 && (game.getGameStatus() == Game.GameStatus.GOOD_GUESS || game.getGameStatus() == Game.GameStatus.WON)) {
+					/*if (correctGuesses.contains(newValue)) {
+						//do nothing
+					}
+					else*/ if (tempIndex != -1 && game.getGameStatus() == Game.GameStatus.GOOD_GUESS || game.getGameStatus() == Game.GameStatus.WON) {
 						String tempField1 = correctGuessField.getText();
 						int tempInt = tempIndex * 2;
 						if (tempInt == 0) {
@@ -122,21 +129,34 @@ public class GameController {
 							String tempField2 = tempField1.substring(0, tempInt) + newValue + tempField1.substring(tempInt + 1);
 							correctGuessField.setText(tempField2);
 						}
+						correctGuesses = correctGuesses + newValue;
 					}
 					else if (game.getGameStatus() == Game.GameStatus.BAD_GUESS || game.getGameStatus() == Game.GameStatus.GAME_OVER) {
 						String tempField = incorrectGuessField.getText();
-						numwrong++;
-						drawHangman(numwrong);
 						if(numwrong <= 9) {
-							if (tempField.equals("")) {
+							if (correctGuesses.contains(newValue)) {
+								//do nothing
+							}
+							else if (tempField.equals("")) {
 								tempField = newValue;
 								incorrectGuessField.setText(tempField);
+								numwrong++;
+								drawHangman(numwrong);
+
 							}
 							else {
 								tempField = tempField + " " + newValue;
 								incorrectGuessField.setText(tempField);
+								numwrong++;
+								drawHangman(numwrong);
+
 							}
 						}
+						/*else {
+							drawHangman(numwrong);
+							numwrong++;
+						}*/
+
 					}
 					textField.clear();
 				}
@@ -210,20 +230,20 @@ public class GameController {
 
 		//stickFigure.getChildren().add(line);
 
-		head = new Circle(236, 0, 10);
-		beakOne = new Line(230, -5, 220, 12);
-		beakTwo = new Line(230, 8, 220, 12);
-		neck = new Line(236, 0, 260, 30);
-		body = new Ellipse(260, 33, 30, 18);
-		tail = new Line(280, 28, 310, 10);
-		legL = new Line(250, 40, 240, 60);
-		legR = new Line(270, 40, 280, 60);
+		head = new Circle(236, 50, 10);
+		beakOne = new Line(230, 45, 220, 62);
+		beakTwo = new Line(230, 58, 220, 62);
+		neck = new Line(236, 50, 260, 80);
+		body = new Ellipse(260, 83, 30, 18);
+		tail = new Line(280, 78, 310, 60);
+		legL = new Line(250, 90, 240, 110);
+		legR = new Line(270, 90, 280, 110);
 
-		Line rope = new Line(236, -100, 236, 0);
-		Rectangle base = new Rectangle(80, 100, 100, 10);
-		Rectangle post = new Rectangle(125, -150, 10, 250);
-		Rectangle overhang = new Rectangle(125, -150, 110, 10);
-		Rectangle ropePost = new Rectangle(232, -150, 10, 50);
+		Line rope = new Line(236, 0, 236, 50);
+		Rectangle base = new Rectangle(80, 200, 100, 10);
+		Rectangle post = new Rectangle(125, -50, 10, 250);
+		Rectangle overhang = new Rectangle(125, -50, 110, 10);
+		Rectangle ropePost = new Rectangle(232, -50, 10, 50);
         if(wrong == 0) {
         	stickFigure.getChildren().add(base);
         	stickFigure.getChildren().add(post);
@@ -267,11 +287,13 @@ public class GameController {
 
 	@FXML
 	private void newHangman() {
+		System.out.println("resetting game...");
 		game.reset();
-        board.getChildren().clear();
+        stickFigure.getChildren().clear();
 		numwrong = 0;
 		drawHangman(numwrong);
 		initAnswerFields();
+		textField.clear();
 	}
 
 	@FXML
